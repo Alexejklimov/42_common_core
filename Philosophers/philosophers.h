@@ -6,16 +6,12 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:40 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/18 15:36:52 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:25:34 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-
-# ifndef BENCH
-#  define BENCH 0
-# endif
 
 # include <pthread.h>
 # include <unistd.h>
@@ -33,9 +29,10 @@ typedef struct s_data
 	int					time_to_eat;		//
 	int					time_to_sleep;		//
 	int					nb_times_to_eat;	// 
-	t_time				start_time;				// 
-	pthread_mutex_t		print_lock;			//
-	pthread_mutex_t		*forks;				//
+	t_time				start_time;			// 
+	pthread_mutex_t		print_lock;			// protect output 
+	pthread_mutex_t		*forks;				// ?????
+	pthread_mutex_t		locker;				// protect
 }	t_data;
 
 typedef struct s_philo

@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:31 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/18 15:27:25 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:26:55 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,11 @@ t_time	timestamp(void)
 
 // static void	start_routine(void)
 // {
-	
 // }
 
-static void	start_lunch(t_data *data, t_philo *philo, int ac, char **av)
+static void	init_philo_struct(t_data *data, t_philo *philo)
 {
 	int	i;
-
-	init_data_struct(data, av);
 
 	i = 0;
 	while (data->philo_nb - 1 > i)
@@ -41,8 +38,26 @@ static void	start_lunch(t_data *data, t_philo *philo, int ac, char **av)
 	{
 		philo[i].ph_id = i;
 		philo[i].last_eat = 0;
-		philo[i].
+		philo[i].eat_times_count = data->nb_times_to_eat;
 	}
+	i = 0;
+	while (i < data->philo_nb)
+	{
+		pthread_mutex_init(&philo[i].left_fork, NULL);
+		pthread_mutex_init(&philo[i].lock, NULL);
+	}
+	pthread_mutex_init(&data->locker, NULL);
+	pthread_mutex_init(&data->print_lock, NULL);
+}
+
+static void	start_lunch(t_data *data, t_philo *philo, int ac, char **av)
+{
+	int	i;
+
+	init_data_struct(data, av);
+	init_philo_struct(data, philo);
+	
+	
 
 	// while (data->philo_nb < i)
 	// {
@@ -52,27 +67,21 @@ static void	start_lunch(t_data *data, t_philo *philo, int ac, char **av)
 
 }
 
-
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_data			*data;
-	static t_philo	*philo;
+	static t_philo	*philo = NULL;
 
-	philo = NULL;
+	t_data					*data;
+
+	//philo = NULL;
 	if (!check_arguments(ac, av))
 		return (0);
 	data = initton();
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	if (!philo || !data)
 		return (write(1, "malloc error\n", 13), 0);
-
 	start_lunch(data, philo, ac, av);
 	init_data_struct(data, av);
-
-
-
-
-
 	free(philo);
 	return (0);
 }

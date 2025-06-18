@@ -4,7 +4,7 @@ SRCS = philo.c utils.c
 NAME = philosophers
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -pthread -g
 
 OBJS = ${SRCS:.c=.o}
 
