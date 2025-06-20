@@ -1,5 +1,5 @@
 
-SRCS = philo.c utils.c
+SRCS = philo.c utils.c utils2.c
 
 NAME = philosophers
 
@@ -47,7 +47,7 @@ build:
 			bar="$$(printf '#%.0s' $$(seq 1 $$bar_len))"; \
 			printf "\r\033[36mProgress: %3d%% \033[0m $${color}%-25s\033[0m" $$percent "$$bar "; \
 			i=$$((i + 1)); \
-			sleep 0.03; \
+			sleep 0.01; \
 		done; \
 		make -s ${NAME}; \
 	)

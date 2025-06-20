@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:44:58 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/18 14:04:44 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:12:59 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,19 @@ int	check_arguments(int ac, char **av)
 	return (0);
 }
 
-void	init_data_struct(t_data *data, char	**av)
-{
-	data = malloc(sizeof(data) * 1);
-	data->philo_nb = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
-	if (av[5])
-		data->nb_times_to_eat = ft_atoi(av[5]);
-	else
-		data->nb_times_to_eat = -42;
-	data->die_flag = 0;
-}
+
 
 t_data	*initton(void)
 {
 	static t_data	data;
 
 	return (&data);
+}
+
+t_time	timestamp(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((t_time)(tv.tv_sec * 1000LL + tv.tv_usec / 1000));
 }
