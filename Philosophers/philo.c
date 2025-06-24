@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:31 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/24 14:27:35 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/24 15:22:11 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	*start_routine(void *income)
 	}
 	if (philo->ph_id % 2)
 		usleep((data->time_to_eat / 2) * 1000);
-	while (is_dead())
+	while (!is_dead())
 	{
 		grab_fork(philo);
 		omnomnom(philo);
@@ -91,7 +91,6 @@ static void	init_philo_struct(t_data *data, t_philo *philo)
 }
 
 static void	start_lunch(t_data *data, t_philo *philo, char **av)
-// static void	start_lunch(t_data *data, t_philo *philo, int ac, char **av)
 {
 	int	i;
 
