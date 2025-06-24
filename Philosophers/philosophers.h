@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:40 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/20 17:23:41 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:19:53 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ int						is_dead(void);
 int						ft_procrastination(t_philo *philo);
 int						omnomnom(t_philo *philo);
 void					grab_fork(t_philo *philo);
-
-
+int						is_philo_died(t_philo *philo);
+int						check_eat_count(t_philo *philo);
+void					dead_unlock(t_philo *philo, int i);
 
 
 #endif

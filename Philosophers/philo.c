@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:31 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/20 17:24:50 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:27:35 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_destroy_mutex(t_philo *philo, t_data *data)
 	int	i;
 
 	i = -1;
-	while(++i < data->philo_nb)
+	while (++i < data->philo_nb)
 	{
 		pthread_mutex_init(&philo[i].left_fork, NULL);
 		pthread_mutex_init(&philo[i].lock, NULL);
@@ -76,7 +76,7 @@ static void	init_philo_struct(t_data *data, t_philo *philo)
 	i = -1;
 	while (data->philo_nb > ++i)
 	{
-		philo[i].ph_id = i;
+		philo[i].ph_id = i + 1;
 		philo[i].last_eat = 0;
 		philo[i].eat_times_count = data->nb_times_to_eat;
 	}
@@ -101,6 +101,10 @@ static void	start_lunch(t_data *data, t_philo *philo, char **av)
 	data->start_time = timestamp();
 	while (data->philo_nb > ++i)
 		pthread_create(&philo[i].tid, NULL, start_routine, &philo[i]);
+	if (data->philo_nb > 1)
+		is_philo_died(philo);
+
+
 	i = -1;
 	while (data->philo_nb > ++i)
 		pthread_join(philo[i].tid, NULL);
@@ -118,7 +122,6 @@ int	main(int ac, char **av)
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	if (!philo || !data)
 		return (write(1, "malloc error\n", 13), 0);
-	//init_data_struct(data, av);
 	start_lunch(data, philo, av);
 	free(philo);
 	return (0);
