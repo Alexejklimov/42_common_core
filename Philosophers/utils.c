@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:44:58 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/20 17:12:59 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/25 17:30:39 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_arguments(int ac, char **av)
 			if (ft_atoi(av[i]) > 0 && ft_isdigit(av[i]))
 				i++;
 			else
-				return (printf("%s - Bad argument. \n", av[i]), 0);
+				return (printf("Argument %d -> %s <- is Bad. \n", i, av[i]), 0);
 		}
 		return (1);
 	}
