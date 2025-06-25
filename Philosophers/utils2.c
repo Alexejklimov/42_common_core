@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:44 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/20 17:25:35 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:49:29 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	omnomnom(t_philo *philo)
 {
 	t_data		*data;
 
-	if (!is_dead() || philo->eat_times_count == 0)
+	if (is_dead() || philo->eat_times_count == 0)
 		return (0);
 	data = initton();
 	pthread_mutex_lock(&philo->lock);
@@ -91,7 +91,7 @@ int	ft_procrastination(t_philo *philo)
 {
 	t_data		*data;
 
-	if (!is_dead())
+	if (is_dead())
 		return (0);
 	data = initton();
 	print_action(philo, "is sleeping\n");
