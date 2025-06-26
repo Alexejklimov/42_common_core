@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:04:51 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/25 16:35:36 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/26 17:32:45 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	is_philo_died(t_philo *philo)
 	int			i;
 
 	data = initton();
-	while (data->die_flag)
+	while (!data->die_flag)
 	{
 		i = -1;
 		while (data->philo_nb > ++i)
 		{
 			pthread_mutex_lock(&philo[i].lock);
-			if (timestamp() - data->start_time - philo[i].last_eat
+			if (timestamp() - philo[i].last_eat
 				>= data->time_to_die)
 				return (dead_unlock(philo, i), 0);
 			pthread_mutex_unlock(&philo[i].lock);
@@ -35,7 +35,7 @@ int	is_philo_died(t_philo *philo)
 				pthread_mutex_unlock(&data->dead_mutex);
 			}
 		}
-		usleep(500);
+		usleep(42);
 	}
 	return (0);
 }
@@ -72,7 +72,7 @@ void	dead_unlock(t_philo *philo, int i)
 	data = initton();
 	pthread_mutex_unlock(&philo[i].lock);
 	pthread_mutex_lock(&data->dead_mutex);
-	data->die_flag = 0;
+	data->die_flag = 1;
 	pthread_mutex_unlock(&data->dead_mutex);
 	print_action(&philo[i], "died\n");
 }

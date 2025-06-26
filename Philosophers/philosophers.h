@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:40 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/24 13:19:53 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/26 14:01:16 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_data
 	t_time				start_time;			// 
 	pthread_mutex_t		dead_mutex;			// mutex for dead check
 	pthread_mutex_t		print_lock;			// protect output 
-	pthread_mutex_t		*forks;				// ?????
 	pthread_mutex_t		locker;				// protect
 }	t_data;
 

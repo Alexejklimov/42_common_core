@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:31 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/25 16:49:11 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/26 17:46:59 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ void	ft_destroy_mutex(t_philo *philo, t_data *data)
 	i = -1;
 	while (++i < data->philo_nb)
 	{
-		pthread_mutex_init(&philo[i].left_fork, NULL);
-		pthread_mutex_init(&philo[i].lock, NULL);
+		pthread_mutex_destroy(&philo[i].count_lock);
+		pthread_mutex_destroy(&philo[i].left_fork);
+		pthread_mutex_destroy(&philo[i].lock);
 	}
+	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->locker);
+	pthread_mutex_destroy(&data->dead_mutex);
 }
 
 static void	*start_routine(void *income)
@@ -77,7 +81,7 @@ static void	init_philo_struct(t_data *data, t_philo *philo)
 	while (data->philo_nb > ++i)
 	{
 		philo[i].ph_id = i + 1;
-		philo[i].last_eat = 0;
+		philo[i].last_eat = timestamp();
 		philo[i].eat_times_count = data->nb_times_to_eat;
 	}
 	i = -1;
@@ -85,6 +89,7 @@ static void	init_philo_struct(t_data *data, t_philo *philo)
 	{
 		pthread_mutex_init(&philo[i].left_fork, NULL);
 		pthread_mutex_init(&philo[i].lock, NULL);
+		pthread_mutex_init(&philo[i].count_lock, NULL);
 	}
 	pthread_mutex_init(&data->locker, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);
@@ -119,8 +124,8 @@ int	main(int ac, char **av)
 		return (0);
 	data = initton();
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
-	if (!philo || !data)
-		return (write(1, "malloc error\n", 13), 0);
+	if (!philo )
+		return (write(1, "mall-err\n", 13), 0);
 	start_lunch(data, philo, av);
 	free(philo);
 	return (0);
