@@ -6,27 +6,11 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:31 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/26 17:46:59 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/27 17:03:36 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	ft_destroy_mutex(t_philo *philo, t_data *data)
-{
-	int	i;
-
-	i = -1;
-	while (++i < data->philo_nb)
-	{
-		pthread_mutex_destroy(&philo[i].count_lock);
-		pthread_mutex_destroy(&philo[i].left_fork);
-		pthread_mutex_destroy(&philo[i].lock);
-	}
-	pthread_mutex_destroy(&data->print_lock);
-	pthread_mutex_destroy(&data->locker);
-	pthread_mutex_destroy(&data->dead_mutex);
-}
 
 static void	*start_routine(void *income)
 {
@@ -36,21 +20,29 @@ static void	*start_routine(void *income)
 	data = initton();
 	philo = (t_philo *)income;
 	if (data->philo_nb == 1)
-	{
-		print_action(philo, "has taken a fork\n");
-		sleepy(data->time_to_die);
-		print_action(philo, "died\n");
-		return (NULL);
-	}
+		return (print_action(philo, "has taken a fork\n"),
+			sleepy(data->time_to_die), print_action(philo, "died\n"), NULL);
 	if (philo->ph_id % 2)
 		usleep((data->time_to_eat / 2) * 1000);
 	while (!is_dead())
 	{
-		grab_fork(philo);
-		omnomnom(philo);
+		if (philo->eat_times_count == 0)
+			break ;
+		if (!grab_fork(philo))
+		{
+			usleep(100);
+			continue ;
+		}
+		if (!omnomnom(philo))
+		{
+			pthread_mutex_unlock(&philo->left_fork);
+			pthread_mutex_unlock(philo->right_fork);
+			break ;
+		}
 		pthread_mutex_unlock(&philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		ft_procrastination(philo);
+		if (!ft_procrastination(philo))
+			break ;
 	}
 	return (NULL);
 }
@@ -72,10 +64,12 @@ static void	init_philo_struct(t_data *data, t_philo *philo)
 {
 	int	i;
 
-
 	i = -1;
-	while (data->philo_nb - 1 > ++i)
-		philo[i].right_fork = &philo[i + 1].left_fork;
+	while (++i < data->philo_nb)
+		pthread_mutex_init(&philo[i].left_fork, NULL);
+	i = -1;
+	while (data->philo_nb > ++i)
+		philo[i].right_fork = &philo[(i + 1) % data->philo_nb].left_fork;
 	philo[i].right_fork = &philo[0].left_fork;
 	i = -1;
 	while (data->philo_nb > ++i)
@@ -83,14 +77,10 @@ static void	init_philo_struct(t_data *data, t_philo *philo)
 		philo[i].ph_id = i + 1;
 		philo[i].last_eat = timestamp();
 		philo[i].eat_times_count = data->nb_times_to_eat;
-	}
-	i = -1;
-	while (++i < data->philo_nb)
-	{
-		pthread_mutex_init(&philo[i].left_fork, NULL);
 		pthread_mutex_init(&philo[i].lock, NULL);
 		pthread_mutex_init(&philo[i].count_lock, NULL);
 	}
+	pthread_mutex_init(&data->dead_mutex, NULL);
 	pthread_mutex_init(&data->locker, NULL);
 	pthread_mutex_init(&data->print_lock, NULL);
 }
@@ -107,8 +97,6 @@ static void	start_lunch(t_data *data, t_philo *philo, char **av)
 		pthread_create(&philo[i].tid, NULL, start_routine, &philo[i]);
 	if (data->philo_nb > 1)
 		is_philo_died(philo);
-
-
 	i = -1;
 	while (data->philo_nb > ++i)
 		pthread_join(philo[i].tid, NULL);
@@ -124,8 +112,8 @@ int	main(int ac, char **av)
 		return (0);
 	data = initton();
 	philo = malloc(sizeof(t_philo) * ft_atoi(av[1]));
-	if (!philo )
-		return (write(1, "mall-err\n", 13), 0);
+	if (!philo)
+		return (write(1, "mall-err\n", 10), 0);
 	start_lunch(data, philo, av);
 	free(philo);
 	return (0);

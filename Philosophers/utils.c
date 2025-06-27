@@ -6,7 +6,7 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:44:58 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/25 17:30:39 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/27 13:48:28 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,26 @@ int	ft_isdigit(char *c)
 	return (1);
 }
 
-int	check_arguments(int ac, char **av)
-{
-	int	i;
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
-	if (ac == 5 || ac == 6)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && s1[i] && s2[i])
 	{
-		i = 1;
-		while (i < ac)
+		if (s1[i] != s2[i])
 		{
-			if (ft_atoi(av[i]) > 0 && ft_isdigit(av[i]))
-				i++;
-			else
-				return (printf("Argument %d -> %s <- is Bad. \n", i, av[i]), 0);
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		}
-		return (1);
+		i++ ;
 	}
-	else
-		printf("number of arguments is incorrect\n");
+	if (i < n)
+	{
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
 	return (0);
 }
-
-
 
 t_data	*initton(void)
 {

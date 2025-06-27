@@ -1,9 +1,9 @@
 
-SRCS = philo.c utils.c utils2.c utils3.c
+SRCS = philo.c utils.c die_action.c routine_action.c
 
 NAME = philosophers
 
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pthread -g
 
 OBJS = ${SRCS:.c=.o}
@@ -44,7 +44,7 @@ build:
 			elif [ $$percent -le 80 ];  then color="\033[38;5;82m"; \
 			elif [ $$percent -le 90 ];  then color="\033[38;5;46m"; \
 			else                          color="\033[38;5;40m"; fi; \
-			bar="$$(printf '#%.0s' $$(seq 1 $$bar_len))"; \
+			bar="$$(printf '█%.0s' $$(seq 1 $$bar_len))"; \
 			printf "\r\033[36mProgress: %3d%% \033[0m $${color}%-25s\033[0m" $$percent "$$bar "; \
 			i=$$((i + 1)); \
 			sleep 0.01; \
