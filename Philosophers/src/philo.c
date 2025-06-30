@@ -6,24 +6,14 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:39:31 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/27 17:03:36 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:16:18 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../philosophers.h"
 
-static void	*start_routine(void *income)
+void	routine_lifecycle(t_philo *philo)
 {
-	t_data	*data;
-	t_philo	*philo;
-
-	data = initton();
-	philo = (t_philo *)income;
-	if (data->philo_nb == 1)
-		return (print_action(philo, "has taken a fork\n"),
-			sleepy(data->time_to_die), print_action(philo, "died\n"), NULL);
-	if (philo->ph_id % 2)
-		usleep((data->time_to_eat / 2) * 1000);
 	while (!is_dead())
 	{
 		if (philo->eat_times_count == 0)
@@ -44,6 +34,21 @@ static void	*start_routine(void *income)
 		if (!ft_procrastination(philo))
 			break ;
 	}
+}
+
+static void	*start_routine(void *income)
+{
+	t_data	*data;
+	t_philo	*philo;
+
+	data = initton();
+	philo = (t_philo *)income;
+	if (data->philo_nb == 1)
+		return (print_action(philo, "has taken a fork\n"),
+			sleepy(data->time_to_die), print_action(philo, "died\n"), NULL);
+	if (philo->ph_id % 2)
+		usleep((data->time_to_eat / 2) * 1000);
+	routine_lifecycle(philo);
 	return (NULL);
 }
 

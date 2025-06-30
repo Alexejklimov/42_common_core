@@ -1,5 +1,5 @@
 
-SRCS = philo.c utils.c die_action.c routine_action.c
+SRCS = src/philo.c src/utils.c src/die_action.c src/routine_action.c
 
 NAME = philosophers
 

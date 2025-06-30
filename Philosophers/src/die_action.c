@@ -6,30 +6,21 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 13:04:51 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/27 16:58:00 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:59:33 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../philosophers.h"
 
-// static void	print_grave(int philo_num, t_data *data)
-// {
-// 	time_t	now;
+int	get_die_flag(t_data *data)
+{
+	int	flag;
 
-// 	now = timestamp() - data->start_time;
-// 	printf("       _______\n");
-// 	printf("      /       \\\n");
-// 	printf("     /         \\\n");
-// 	printf("    |   R.I.P   |\n");
-// 	printf("    |           |\n");
-// 	printf("    |    #%02d    |\n", philo_num + 1);
-// 	printf("    |  0 - %ld  |\n", now);
-// 	printf("    |___________|\n");
-// 	printf("     |         |\n");
-// 	printf("  ^^^^  ^^^  ^^^^^^\n");
-// 	printf(" ^     ^^^^     ^^^\n");
-// 	printf("  ^^^^     ^^^  ^^^\n");
-// }
+	pthread_mutex_lock(&data->dead_mutex);
+	flag = data->die_flag;
+	pthread_mutex_unlock(&data->dead_mutex);
+	return (flag);
+}
 
 int	is_philo_died(t_philo *philo)
 {
@@ -37,7 +28,7 @@ int	is_philo_died(t_philo *philo)
 	int			i;
 
 	data = initton();
-	while (!data->die_flag)
+	while (!get_die_flag(data))
 	{
 		i = -1;
 		while (data->philo_nb > ++i)
@@ -45,7 +36,8 @@ int	is_philo_died(t_philo *philo)
 			pthread_mutex_lock(&philo[i].lock);
 			if (timestamp() - philo[i].last_eat
 				>= data->time_to_die)
-				return (pthread_mutex_unlock(&philo[i].lock), dead_unlock(philo, i), /*print_grave(i, data),*/ 0);
+				return (pthread_mutex_unlock(&philo[i].lock),
+					dead_unlock(philo, i), print_grave(i, data), 0);
 			pthread_mutex_unlock(&philo[i].lock);
 			if (check_eat_count(philo) == 1)
 			{
@@ -59,37 +51,14 @@ int	is_philo_died(t_philo *philo)
 	return (0);
 }
 
-int	check_eat_count(t_philo *philo)
-{
-	t_data		*data;
-	int			i;
-	int			count;
 
-	data = initton();
-	i = -1;
-	count = 0;
-	while (++i < data->philo_nb)
-	{
-		pthread_mutex_lock(&philo[i].lock);
-		if (philo[i].eat_times_count == 0)
-		{
-			pthread_mutex_lock(&data->locker);
-			count++;
-			pthread_mutex_unlock(&data->locker);
-		}
-		pthread_mutex_unlock(&philo[i].lock);
-	}
-	if (count == data->philo_nb)
-		return (1);
-	return (0);
-}
 
 void	dead_unlock(t_philo *philo, int i)
 {
 	t_data		*data;
 
 	data = initton();
-	pthread_mutex_unlock(&philo[i].lock);
+	//pthread_mutex_unlock(&philo[i].lock);
 	pthread_mutex_lock(&data->dead_mutex);
 	data->die_flag = 1;
 	pthread_mutex_unlock(&data->dead_mutex);
@@ -112,6 +81,21 @@ void	ft_destroy_mutex(t_philo *philo, t_data *data)
 	pthread_mutex_destroy(&data->dead_mutex);
 }
 
+int	is_dead(void)
+{
+	t_data	*data;
+
+	data = initton();
+	pthread_mutex_lock(&data->dead_mutex);
+	if (!data->die_flag)
+	{
+		pthread_mutex_unlock(&data->dead_mutex);
+		return (0);
+	}
+	pthread_mutex_unlock(&data->dead_mutex);
+	return (1);
+}
+
 int	check_arguments(int ac, char **av)
 {
 	int	i;
@@ -121,10 +105,10 @@ int	check_arguments(int ac, char **av)
 		i = 1;
 		while (i < ac)
 		{
-			if (ft_atoi(av[i]) >= 0 && ft_isdigit(av[i]))
+			if (ft_atoi(av[i]) > 0 && ft_isdigit(av[i]))
 				i++;
 			else
-				return (printf("Argument %d -> %s <- is Bad. \n", i, av[i]), 0);
+				return (printf("Argument %d ->%s<- is Bad. \n", i, av[i]), 0);
 		}
 		return (1);
 	}

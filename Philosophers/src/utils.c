@@ -6,11 +6,11 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:44:58 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/27 13:48:28 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 12:56:23 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../philosophers.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -87,4 +87,23 @@ t_time	timestamp(void)
 
 	gettimeofday(&tv, NULL);
 	return ((t_time)(tv.tv_sec * 1000LL + tv.tv_usec / 1000));
+}
+
+void	print_grave(int philo_num, t_data *data)
+{
+	time_t	now;
+
+	now = timestamp() - data->start_time;
+	printf("       _______\n");
+	printf("      /       \\\n");
+	printf("     /         \\\n");
+	printf("    |   R.I.P   |\n");
+	printf("    |           |\n");
+	printf("    |    #%02d    |\n", philo_num + 1);
+	printf("    |  0 - %ld |\n", now);
+	printf("    |___________|\n");
+	printf("     |         |\n");
+	printf("  ^^^^  ^^^  ^^^^^^\n");
+	printf(" ^     ^^^^     ^^^\n");
+	printf("  ^^^^     ^^^  ^^^\n");
 }

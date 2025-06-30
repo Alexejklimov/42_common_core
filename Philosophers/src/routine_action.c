@@ -6,19 +6,21 @@
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:44 by oklimov           #+#    #+#             */
-/*   Updated: 2025/06/27 16:55:24 by oklimov          ###   ########.fr       */
+/*   Updated: 2025/06/30 13:08:32 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "../philosophers.h"
 
 int	print_action(t_philo *philo, char *str)
 {
 	t_data	*data;
+	int		flag;
 
 	data = initton();
+	flag = get_die_flag(data);
 	pthread_mutex_lock(&data->print_lock);
-	if (data->die_flag && ft_strncmp(str, "died", 4) != 0)
+	if (flag && ft_strncmp(str, "died", 4) != 0)
 	{
 		pthread_mutex_unlock(&data->print_lock);
 		return (0);
@@ -43,19 +45,29 @@ int	sleepy(t_time time)
 	return (1);
 }
 
-int	is_dead(void)
+int	check_eat_count(t_philo *philo)
 {
-	t_data	*data;
+	t_data		*data;
+	int			i;
+	int			count;
 
 	data = initton();
-	pthread_mutex_lock(&data->dead_mutex);
-	if (!data->die_flag)
+	i = -1;
+	count = 0;
+	while (++i < data->philo_nb)
 	{
-		pthread_mutex_unlock(&data->dead_mutex);
-		return (0);
+		pthread_mutex_lock(&philo[i].count_lock);
+		if (philo[i].eat_times_count == 0)
+		{
+			pthread_mutex_lock(&data->locker);
+			count++;
+			pthread_mutex_unlock(&data->locker);
+		}
+		pthread_mutex_unlock(&philo[i].count_lock);
 	}
-	pthread_mutex_unlock(&data->dead_mutex);
-	return (1);
+	if (count == data->philo_nb)
+		return (1);
+	return (0);
 }
 
 int	grab_fork(t_philo *philo)
@@ -87,20 +99,19 @@ int	omnomnom(t_philo *philo)
 {
 	t_data		*data;
 
-	
 	data = initton();
 	pthread_mutex_lock(&philo->lock);
 	philo->last_eat = timestamp();
 	pthread_mutex_unlock(&philo->lock);
-	pthread_mutex_lock(&philo->count_lock);
-	pthread_mutex_unlock(&philo->count_lock);
 	if (!is_dead())
 	{
 		print_action(philo, "is eating\n");
 		sleepy(data->time_to_eat);
 	}
+	pthread_mutex_lock(&philo->count_lock);
 	if (philo->eat_times_count > 0)
 		philo->eat_times_count--;
+	pthread_mutex_unlock(&philo->count_lock);
 	return (1);
 }
 
