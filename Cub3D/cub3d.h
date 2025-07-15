@@ -35,7 +35,10 @@ typedef struct s_map
 	size_t	y;
 	char	**map;
 	int		start_pos[2];
-	char	*start_orient;
+	char	start_orient;
+	char	*texture[4];
+	int		floor_rgb[3];
+	int		ceil_rgb[3];
 }	t_map;
 
 typedef struct s_game
@@ -45,5 +48,15 @@ typedef struct s_game
 	char	**map;
 	
 }	t_game;
+
+typedf enum e_texture
+{
+	NORD;
+	SOUTH;
+	WEST;
+	EAST;
+	FLOOR;
+	CEIL;
+}
 
 #endif

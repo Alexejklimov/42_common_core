@@ -76,7 +76,7 @@ build:
 			bar="$$(printf '█%.0s' $$(seq 1 $$bar_len))"; \
 			printf "\r\033[36mProgress: %3d%% \033[0m $${color}%-25s\033[0m" $$percent "$$bar "; \
 			i=$$((i + 1)); \
-			sleep 0.01; \
+			sleep 0.05; \
 		done; \
 		printf "\n"; \
 		make -s ${NAME}; \

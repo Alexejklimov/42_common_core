@@ -27,6 +27,8 @@ int	ft_check_arg(char *mapname, char *ber)
 	return (mapname[j] - ber[i]);
 }
 
+
+
 int	main(int ac, char **av)
 {
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
@@ -35,12 +37,6 @@ int	main(int ac, char **av)
 
 	return (0);
 }
-
-
-
-
-
-
 
 
 
