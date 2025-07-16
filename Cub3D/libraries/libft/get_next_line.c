@@ -10,7 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include "libft.h"
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 static char	*ft_free(char *res, char *buffer)
 {

@@ -12,35 +12,38 @@
 
 NAME = cub3d
 
-SRCS = cub3d.c \
+SRCS = cub3d.c src/parsing/read_and_separate.c \
 
 OBJS = $(SRCS:.c=.o)
+
+LIBFT = libraries/libft/libft.a
+
 
 LIBMLX = libraries/minilibx-linux/libmlx.a
 
 PRINTF = libraries/printf/libftprintf.a
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -I./libraries/printf -I./libraries/minilibx-linux
+CFLAGS = -Wall -Werror -Wextra -I./libraries/printf -I./libraries/minilibx-linux -I./libraries/libft -I./libraries/gnl -g
 MLX_FLAGS = -Llibraries/minilibx-linux -lmlx -L/usr/lib/X11 -lXext -lX11
 
-
-
-all: build
-
-$(NAME): $(OBJS) ${LIBMLX} ${PRINTF}
-	@${CC} ${OBJS} -o ${NAME} ${PRINTF} ${LIBMLX} ${MLX_FLAGS}
+$(NAME): $(OBJS) ${LIBMLX} ${PRINTF} ${LIBFT}
+	@${CC} ${OBJS} -o ${NAME} ${PRINTF} ${LIBFT} ${LIBMLX} ${MLX_FLAGS}
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+all: build
+
 clean:
 	@rm -f $(OBJS)
 	@make --no-print-directory -C libraries/printf clean
+	@make --no-print-directory -C libraries/libft clean
 
 fclean: clean
 	@rm -f $(NAME)
 	@make --no-print-directory -C libraries/printf clean
+	@make --no-print-directory -C libraries/libft clean
 
 
 re: fclean all
@@ -50,6 +53,9 @@ $(PRINTF):
 
 $(LIBMLX):
 	@make -C libraries/minilibx-linux
+
+${LIBFT}:
+	@make -C libraries/libft
 
 .PHONY: all clean fclean re build
 
@@ -76,7 +82,7 @@ build:
 			bar="$$(printf '█%.0s' $$(seq 1 $$bar_len))"; \
 			printf "\r\033[36mProgress: %3d%% \033[0m $${color}%-25s\033[0m" $$percent "$$bar "; \
 			i=$$((i + 1)); \
-			sleep 0.05; \
+			sleep 0.01; \
 		done; \
 		printf "\n"; \
 		make -s ${NAME}; \

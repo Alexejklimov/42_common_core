@@ -31,10 +31,13 @@ int	ft_check_arg(char *mapname, char *ber)
 
 int	main(int ac, char **av)
 {
+	t_map	*map;
+
+	map = malloc(sizeof(map));
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 
-
+	parse_map(av[1], map);
 	return (0);
 }
 
