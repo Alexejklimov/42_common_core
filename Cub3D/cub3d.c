@@ -31,9 +31,9 @@ int	ft_check_arg(char *mapname, char *ber)
 
 int	main(int ac, char **av)
 {
-	t_map	*map;
+	t_map_info	*map;
 
-	map = malloc(sizeof(map));
+	map = calloc(sizeof(t_map_info), 1);
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 
@@ -44,7 +44,7 @@ int	main(int ac, char **av)
 
 
 // 		map rules
-// 0. separate map from textures and floor/seilings colors.
+// Done 0. separate map from textures and floor/seilings colors. 
 // 1. map has to be surrounded by 1
 // 2. only 0 1 NWES
 // 3. spaces in a begining of str or surrounded by 1-> "1001  1001"
@@ -54,4 +54,5 @@ int	main(int ac, char **av)
 // 		11 11
 // 		11 11
 // 5. dont give a shit if palyer can reach all areas.
+// 6. make map rectangular
 

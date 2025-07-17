@@ -29,17 +29,17 @@
 # define S 115
 # define D 100
 
-typedef struct s_map
+typedef struct s_map_info
 {
-	size_t	x;
-	size_t	y;
-	char	**map;
-	int		start_pos[2];
-	char	start_orient;
-	char	*texture[4];
-	int		floor_rgb[4];
-	int		ceil_rgb[4];
-}	t_map;
+	size_t		x;
+	size_t		y;
+	char		**map;
+	int			start_pos[2];
+	char		start_orient;
+	const char	*texture[4];
+	int			floor_rgb[3];
+	int			ceil_rgb[3];
+}	t_map_info;
 
 typedef struct s_game
 {
@@ -61,10 +61,10 @@ typedef enum e_texture
 
 //parsing of map
 
-char	**read_map(char *map_file);
-void	rgb_parse(char *line, int *dest);
-int		parse_texture(char **file, t_map *map);
-char	**separate_map(char **file, t_map *map);
-void	parse_map(char *file, t_map *map);
+const char		**read_map(char *map_file);
+void			rgb_parse(const char *line, int *dest);
+int				parse_texture(const char **file, t_map_info *map_info);
+const char		**separate_map(const char **file, t_map_info *map_info);
+void			parse_map(char *file, t_map_info *map_info);
 
 #endif
