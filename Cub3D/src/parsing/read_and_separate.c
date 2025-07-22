@@ -1,19 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_&_separate.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2025/07/16 14:04:18 by oklimov           #+#    #+#             */
-/*   Updated: 2025/07/16 14:04:18 by oklimov          ###   ########.fr       */
+/*   read_and_separate.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/21 15:02:27 by oklimov           #+#    #+#             */
+/*   Updated: 2025/07/21 15:02:27 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../cub3d.h"
+
 
 const char	**read_map(char *map_file)
 {
@@ -79,9 +77,9 @@ int	verify_texture(t_map_info *map)
 	while (i < 3)
 	{
 		if (!(map->ceil_rgb[i] && map->ceil_rgb[i] >= 0
-			&& map->ceil_rgb[i] <= 255 && map->floor_rgb[i]
-			&& map->floor_rgb[i] >= 0 && map->floor_rgb[i] <= 255))
-				return (0);
+				&& map->ceil_rgb[i] <= 255 && map->floor_rgb[i]
+				&& map->floor_rgb[i] >= 0 && map->floor_rgb[i] <= 255))
+			return (0);
 		i++;
 	}
 	return (1);
