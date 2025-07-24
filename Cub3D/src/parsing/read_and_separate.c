@@ -59,20 +59,32 @@ void	rgb_parse(const char *line, int *dest)
 	}
 }
 
+void	checker(char *str)
+{
+	int	i = 0;
+
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			str[i] = "\0";
+		printf("%c--> %d, ",str[i], (int)str[i]);
+		i++;
+	}
+	printf("\n");
+}
+
 int	verify_texture(t_map_info *map)
 {
 	int	i;
 	int	fd;
 
 	i = 0;
-	char cwd[256];
-	getcwd(cwd, sizeof(cwd));
-	printf("CWD: %s\n", cwd);
+	checker(map->texture[0]);
 	while (i < 4)
 	{
 		fd = open(map->texture[i], O_RDONLY);
 		if (fd < 0)
-			return (printf("-->%s<-- fd->%d\n", map->texture[i], fd), 0);
+			return (printf("\n\n-->%s<-- fd->%d\n", map->texture[i], fd), 0);
 		close(fd);
 		i++;
 	}
