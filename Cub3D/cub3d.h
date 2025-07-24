@@ -66,5 +66,8 @@ void			rgb_parse(const char *line, int *dest);
 int				parse_texture(const char **file, t_map_info *map_info);
 const char		**separate_map(const char **file, t_map_info *map_info);
 void			parse_map(char *file, t_map_info *map_info);
-
+int				verify_texture(t_map_info *map);
+void			check_map_is_valid(const char **map, t_map_info *map_info);
+int				is_symbols_valid_only(const char **map);
+int				check_walls_is_valid(const char **map);
 #endif

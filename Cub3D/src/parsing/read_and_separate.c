@@ -65,11 +65,14 @@ int	verify_texture(t_map_info *map)
 	int	fd;
 
 	i = 0;
+	char cwd[256];
+	getcwd(cwd, sizeof(cwd));
+	printf("CWD: %s\n", cwd);
 	while (i < 4)
 	{
-		fd = open(map->texture[0], O_RDONLY);
+		fd = open(map->texture[i], O_RDONLY);
 		if (fd < 0)
-			return (0);
+			return (printf("-->%s<-- fd->%d\n", map->texture[i], fd), 0);
 		close(fd);
 		i++;
 	}
@@ -128,7 +131,7 @@ const char	**separate_map(const char **file, t_map_info *map_info)
 		separated_map[j++] = ft_strdup(file[i++]);
 	separated_map[j] = NULL;
 	i = 0;
-	while (separated_map[i] != NULL)
-		printf("%s", separated_map[i++]);
+	// while (separated_map[i] != NULL)
+	// 	printf("%s", separated_map[i++]);
 	return (separated_map);
 }

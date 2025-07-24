@@ -12,7 +12,7 @@
 
 NAME = cub3d
 
-SRCS = cub3d.c src/parsing/read_and_separate.c \
+SRCS = cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c \
 
 OBJS = $(SRCS:.c=.o)
 

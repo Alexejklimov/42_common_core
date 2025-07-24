@@ -1,7 +1,7 @@
-NO img/nord
-SO img/sud
-WE img/west
-EA img/east
+NO /home/oklimov/core/common_core/Cub3D/maps/textures/exit0.xpm
+SO ./../maps/textures/exit1.xpm
+WE maps/textures/exit2.xpm
+EA ../../maps/textures/exit3.xpm
 
 F 210,100,20
 C 210,30,10
