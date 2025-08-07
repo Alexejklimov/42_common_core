@@ -44,15 +44,7 @@ int	main(int ac, char **av)
 
 
 // 		map rules
-// Done 0. separate map from textures and floor/seilings colors. 
-// 1. map has to be surrounded by 1
-// 2. only 0 1 NWES
-// 3. spaces in a begining of str or surrounded by 1-> "1001  1001"
-// 4. if last row got spaces - check upper rows 
-// 		11111
-// 		10101	<-example
-// 		11 11
-// 		11 11
+
 // 5. dont give a shit if palyer can reach all areas.
 // 6. make map rectangular
 

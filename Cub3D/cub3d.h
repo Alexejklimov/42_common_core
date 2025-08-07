@@ -36,7 +36,7 @@ typedef struct s_map_info
 	char		**map;
 	int			start_pos[2];
 	char		start_orient;
-	const char	*texture[4];
+	char	*texture[4];
 	int			floor_rgb[3];
 	int			ceil_rgb[3];
 }	t_map_info;

@@ -59,18 +59,23 @@ void	rgb_parse(const char *line, int *dest)
 	}
 }
 
-void	checker(char *str)
+void	texture_end_fixer(t_map_info *map)
 {
-	int	i = 0;
+	int	i;
+	int	j;
 
-	while (str[i])
+	i = 0;
+	while (i < 4)
 	{
-		if (str[i] == '\n')
-			str[i] = "\0";
-		printf("%c--> %d, ",str[i], (int)str[i]);
+		j = 0;
+		while (map->texture[i][j])
+		{
+			if (map->texture[i][j] == '\n')
+				map->texture[i][j] = '\0';
+			j++;
+		}
 		i++;
 	}
-	printf("\n");
 }
 
 int	verify_texture(t_map_info *map)
@@ -79,21 +84,19 @@ int	verify_texture(t_map_info *map)
 	int	fd;
 
 	i = 0;
-	checker(map->texture[0]);
+	texture_end_fixer(map);
 	while (i < 4)
 	{
 		fd = open(map->texture[i], O_RDONLY);
-		if (fd < 0)
-			return (printf("\n\n-->%s<-- fd->%d\n", map->texture[i], fd), 0);
 		close(fd);
 		i++;
 	}
 	i = 0;
 	while (i < 3)
 	{
-		if (!(map->ceil_rgb[i] && map->ceil_rgb[i] >= 0
-				&& map->ceil_rgb[i] <= 255 && map->floor_rgb[i]
-				&& map->floor_rgb[i] >= 0 && map->floor_rgb[i] <= 255))
+		if (!(map->ceil_rgb[i] >= 0 && map->ceil_rgb[i] <= 255
+				&& map->floor_rgb[i] && map->floor_rgb[i] >= 0
+				&& map->floor_rgb[i] <= 255))
 			return (0);
 		i++;
 	}
@@ -143,7 +146,5 @@ const char	**separate_map(const char **file, t_map_info *map_info)
 		separated_map[j++] = ft_strdup(file[i++]);
 	separated_map[j] = NULL;
 	i = 0;
-	// while (separated_map[i] != NULL)
-	// 	printf("%s", separated_map[i++]);
 	return (separated_map);
 }
