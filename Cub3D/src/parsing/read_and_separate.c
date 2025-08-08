@@ -12,18 +12,17 @@
 
 #include "../../cub3d.h"
 
-
-const char	**read_map(char *map_file)
+char	**read_map(char *map_file)
 {
 	int			fd;
 	int			i;
 	char		*line;
-	const char	**map;
+	char		**map;
 
 	fd = open(map_file, O_RDONLY);
 	if (fd < 0)
 		return (perror("open map file - Error\n"), NULL);
-	map = malloc(sizeof(char *) * 100);
+	map = malloc(sizeof(char *) * 108);
 	if (!map)
 		return (perror("map memory allocate - Error\n"), NULL);
 	line = " ";
@@ -39,7 +38,7 @@ const char	**read_map(char *map_file)
 	return (map);
 }
 
-void	rgb_parse(const char *line, int *dest)
+void	rgb_parse(char *line, int *dest)
 {
 	int	i;
 	int	texture_index;
@@ -55,25 +54,6 @@ void	rgb_parse(const char *line, int *dest)
 			buffer = (buffer * 10) + (line[i++] - '0');
 		if (buffer)
 			dest[texture_index++] = buffer;
-		i++;
-	}
-}
-
-void	texture_end_fixer(t_map_info *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (map->texture[i][j])
-		{
-			if (map->texture[i][j] == '\n')
-				map->texture[i][j] = '\0';
-			j++;
-		}
 		i++;
 	}
 }
@@ -103,7 +83,7 @@ int	verify_texture(t_map_info *map)
 	return (1);
 }
 
-int	parse_texture(const char **file, t_map_info *map_info)
+int	parse_texture(char **file, t_map_info *map_info)
 {
 	int	i;
 
@@ -129,12 +109,12 @@ int	parse_texture(const char **file, t_map_info *map_info)
 	return (i);
 }
 
-const char	**separate_map(const char **file, t_map_info *map_info)
+char	**separate_map(char **file, t_map_info *map_info)
 {
 	int			i;
 	int			j;
 	int			acc;
-	const char	**separated_map;
+	char		**separated_map;
 
 	i = parse_texture(file, map_info);
 	acc = i;
@@ -146,5 +126,6 @@ const char	**separate_map(const char **file, t_map_info *map_info)
 		separated_map[j++] = ft_strdup(file[i++]);
 	separated_map[j] = NULL;
 	i = 0;
+	free_map(file);
 	return (separated_map);
 }

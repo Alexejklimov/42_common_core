@@ -36,7 +36,7 @@ typedef struct s_map_info
 	char		**map;
 	int			start_pos[2];
 	char		start_orient;
-	char	*texture[4];
+	char		*texture[4];
 	int			floor_rgb[3];
 	int			ceil_rgb[3];
 }	t_map_info;
@@ -61,13 +61,21 @@ typedef enum e_texture
 
 //parsing of map
 
-const char		**read_map(char *map_file);
-void			rgb_parse(const char *line, int *dest);
-int				parse_texture(const char **file, t_map_info *map_info);
-const char		**separate_map(const char **file, t_map_info *map_info);
+char			**read_map(char *map_file);
+void			rgb_parse(char *line, int *dest);
+int				parse_texture(char **file, t_map_info *map_info);
+char			**separate_map(char **file, t_map_info *map_info);
 void			parse_map(char *file, t_map_info *map_info);
 int				verify_texture(t_map_info *map);
-void			check_map_is_valid(const char **map, t_map_info *map_info);
-int				is_symbols_valid_only(const char **map);
-int				check_walls_is_valid(const char **map);
+void			check_map_is_valid(char **map, t_map_info *map_info);
+int				is_symbols_valid_only(char **map);
+int				check_walls_is_valid(char **map);
+void			make_map_rectangular(char **map, t_map_info *map_info);
+void			free_map(char **map);
+void			fill_start_pos_orient(t_map_info *map_info);
+void			texture_end_fixer(t_map_info *map);
+void			fill_start_pos_orient(t_map_info *map_info);
+size_t			longest_row(char	**map);
+char			*fix_line(char	*str, size_t max_len);
+
 #endif
