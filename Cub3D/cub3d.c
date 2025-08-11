@@ -55,11 +55,20 @@ void	check_struct(t_map_info *map)
 int	main(int ac, char **av)
 {
 	t_map_info	*map;
+	t_game		*game;
 
-	map = calloc(sizeof(t_map_info), 1);
+	map = ft_calloc(sizeof(t_map_info), 1);
+	game = ft_calloc(sizeof(t_game), 1);
 	if (ac != 2 || ft_check_arg(av[1], ".cub") != 0)
 		return (ft_printf("Error\n Map path/name isn`t valid\n"));
 	parse_map(av[1], map);
-	check_struct(map);
+	//check_struct(map);
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (1);
+	game->win_mlx = mlx_new_window(game->mlx, (map->x) * PXL,
+			(map->y) * PXL, "CUB3D");
+	if (!game->win_mlx)
+		return (free(game->mlx), 1);
 	return (0);
 }

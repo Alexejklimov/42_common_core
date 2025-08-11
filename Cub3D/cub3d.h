@@ -28,6 +28,7 @@
 # define A 97
 # define S 115
 # define D 100
+# define PXL 16 ///////////////
 
 typedef struct s_map_info
 {
