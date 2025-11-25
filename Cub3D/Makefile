@@ -12,7 +12,7 @@
 
 NAME = cub3d
 
-SRCS = cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c \
+SRCS =  cub3d.c src/parsing/read_and_separate.c src/parsing/parse_map.c \
 		src/utils/utils.c src/parsing/parsing_utils.c \
 
 OBJS = $(SRCS:.c=.o)
@@ -20,7 +20,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libraries/libft/libft.a
 
 
-LIBMLX = libraries/minilibx-linux/libmlx.a
+LIBMLX = libraries/MLX42
 
 PRINTF = libraries/printf/libftprintf.a
 

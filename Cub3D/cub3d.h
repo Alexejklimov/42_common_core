@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include <math.h>
 
 # define ESC 65307
 # define W 119
