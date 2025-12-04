@@ -6,7 +6,7 @@
 #    By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/28 13:46:09 by oklimov           #+#    #+#              #
-#    Updated: 2025/12/04 13:37:48 by oklimov          ###   ########.fr        #
+#    Updated: 2025/12/04 14:51:35 by oklimov          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ CXX = c++
 
 CXX_FLAGS =  -Wall -Wextra -Werror -std=c++98
 
-NAME = sed
+NAME = Harl
 
-SRCS = src/main.cpp src/sed.cpp
+SRCS = src/main.cpp src/Harl.cpp
 OBJS_DIR = obj
 OBJS = $(SRCS:src/%.cpp=$(OBJS_DIR)/%.o)
 

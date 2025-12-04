@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sed.hpp                                            :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oklimov <oklimov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 15:51:29 by oklimov           #+#    #+#             */
-/*   Updated: 2025/12/04 14:07:37 by oklimov          ###   ########.fr       */
+/*   Created: 2025/12/04 14:29:51 by oklimov           #+#    #+#             */
+/*   Updated: 2025/12/04 15:19:57 by oklimov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <string>
-#include <fstream>
+#include "../includes/Harl.hpp"
 
-#pragma once
+int main( void )
+{
+	Harl harl;
 
-#define RED     "\033[31m"
-#define NORM   "\033[0m"
+	harl.complain("DEBUG");
+	harl.complain("INFO");
+	harl.complain("WARNING");
+	harl.complain("ERROR");
 
-void sedIsForLosers(std::string filename, std::string s1, std::string s2);
+	//harl.complain("abbrrrvallgh");
+	return 0;
+}
